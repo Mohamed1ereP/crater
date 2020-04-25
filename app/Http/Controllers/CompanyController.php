@@ -94,6 +94,7 @@ class CompanyController extends Controller
         $user = User::find(1);
         $company = $user->company;
         $company->name = $request->name;
+        $company->abn = $request->abn;
         $company->save();
 
         if ($request->has('logo')) {
@@ -143,13 +144,14 @@ class CompanyController extends Controller
         $currency = CompanySetting::getSetting('currency', $request->header('company'));
         $fiscal_year = CompanySetting::getSetting('fiscal_year', $request->header('company'));
 
-        $languages = [
+        $languages = [  // alphabetical order
+            ["code"=>"pt_BR", "name" => "Brazilian Portuguese"],
             ["code"=>"en", "name" => "English"],
             ["code"=>"fr", "name" => "French"],
+            ["code"=>"de", "name" => "German"],
+            ["code"=>"it", "name" => "Italian"],
             ["code"=>"es", "name" => "Spanish"],
             ["code"=>"ar", "name" => "العربية"],
-            ["code"=>"de", "name" => "German"],
-            ["code"=>"pt_BR", "name" => "Brazilian Portuguese"],
         ];
 
         return response()->json([
