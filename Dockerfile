@@ -37,26 +37,3 @@ RUN mkdir -p /home/$user/.composer && \
 WORKDIR /var/www
 
 USER $user
-RUN apk add --no-cache libpng-dev libxml2-dev oniguruma-dev libzip-dev gnu-libiconv && \
-    docker-php-ext-install bcmath ctype json gd mbstring pdo pdo_mysql tokenizer xml zip
-
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-
-# Set container's working dir
-WORKDIR /app
- 
-# Copy everything from project root into php container's working dir
-COPY . /app
-
-# Copy vendor folder from composer container into php container
-COPY --from=composer /app/vendor /app/vendor
-
-RUN chown -R www-data:www-data . && \
-    chmod -R 755 . && \
-    chmod -R 775 storage/framework/ && \
-    chmod -R 775 storage/logs/ && \
-    chmod -R 775 bootstrap/cache/  
-
-EXPOSE 9000
-
-CMD ["php-fpm", "--nodaemonize"]
