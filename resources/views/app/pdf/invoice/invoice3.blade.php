@@ -276,7 +276,6 @@
 
         .total-table-attribute-value {
             font-weight: bold;
-            text-align: right;
             font-size: 12px;
             color: #040405;
             padding-right: 10px;

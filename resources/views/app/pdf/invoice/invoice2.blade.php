@@ -108,7 +108,7 @@
         /* -- Company -- */
 
         .company-address-container {
-            padding: 0 0 0 30px;
+            padding-left: 30px;
             display: inline;
             float: left;
             width: 30%;
@@ -131,38 +131,38 @@
 
         /* -- Billing -- */
 
+         /* -- Billing -- */
+
         .billing-address-container {
-            display: block;
-            /* position: absolute; */
-            float: right;
-            padding: 0 40px 0 0;
+            float: left;
+            padding-left: 60px;
+            padding-top:60px;
         }
 
         .billing-address-label {
             font-size: 12px;
             line-height: 18px;
             padding: 0px;
+            margin-top: 27px;
             margin-bottom: 0px;
         }
 
         .billing-address-name {
-            max-width: 250px;
+            max-width: 160px;
             font-size: 15px;
             line-height: 22px;
             padding: 0px;
-            margin-top: 0px;
-            margin-bottom: 0px;
+            margin: 0px;
         }
 
-        .billing-address{
+        .billing-address {
             font-size: 10px;
             line-height: 15px;
             color: #595959;
             padding: 0px;
             margin: 0px;
-            width: 170px;
+            width: 160px;
         }
-
         /* -- Shipping -- */
 
         .shipping-address-container {
@@ -245,7 +245,7 @@
         /* -- Total Display Table -- */
 
         .total-display-container {
-            padding: 0 25px;
+            padding: 0;
         }
 
         .item-cell-table-hr {
@@ -257,7 +257,7 @@
             page-break-inside: avoid;
             page-break-before: auto;
             page-break-after: auto;
-            margin-left: 500px;
+            margin-left: 400px;
             border: 1px solid #EAF1FB;
             border-top: none;
         }
@@ -396,23 +396,19 @@
         </table>
     </div>
     <hr>
-    <div class="wrapper">
-        <div class="address">
-            <div class="company">
+     <div class="wrapper">
+        <div class="address-container">
+            <div class="company-address-container" style="float:left;">
+                @include('app.pdf.invoice.partials.company-address')
+            </div>
+            <div class="bill-address-container" style="float:right;padding-right:0px;">
                 @include('app.pdf.invoice.partials.billing-address')
             </div>
-            {{-- <div class="ship-address-container">
-                @include('app.pdf.invoice.partials.shipping-address')
-            </div>
-            @if($invoice->user->shippingaddress)
-                <div class="bill-address-container">
-            @else
-                <div class="bill-address-container" style="float:right;padding-right:0px;">
-            @endif
-              @include('app.pdf.invoice.partials.company-address')
-            </div> --}}
             <div style="clear: both;"></div>
         </div>
+        @include('app.pdf.invoice.partials.table')
+        @include('app.pdf.invoice.partials.notes')
+    </div>
 </body>
 
 </html>

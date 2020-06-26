@@ -57,6 +57,11 @@ Route::get('/invoices/pdf/{id}', [
     'uses' => 'FrontendController@getInvoicePdf'
 ]);
 
+Route::get('/invoices/view/{id}', [
+    'as' => 'get.invoice.pdf',
+    'uses' => 'InvoicesController@viewInvoicePdf'
+]);
+
 
 // download estimate pdf with a unique_hash $id
 // -------------------------------------------------
