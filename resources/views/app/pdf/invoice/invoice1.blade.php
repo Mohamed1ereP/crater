@@ -384,9 +384,18 @@
             </div>
             <div style="clear: both;"></div>
         </div>
-
-        <div class="billing-address-container">
-            @include('app.pdf.invoice.partials.billing-address')
+        <div class="bill-add">
+            <div class="bill-address-container">
+                    @include('app.pdf.invoice.partials.billing-address')
+            </div>
+            {{-- @if($invoice->user->billingaddress)
+                <div class="ship-address-container">
+            @else
+                <div class="ship-address-container " style="float:left;padding-left:0px;">
+            @endif
+                @include('app.pdf.invoice.partials.shipping-address')
+            </div> --}}
+            <div style="clear: both;"></div>
         </div>
 
         <div class="shipping-address-container" @if($invoice->user->billingaddress) style="float:left;" @else style="float:left: padding-left: 0px;" @endif>

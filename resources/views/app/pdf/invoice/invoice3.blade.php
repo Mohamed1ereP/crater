@@ -403,15 +403,15 @@
                 <div class="billing-address-container">
                     @include('app.pdf.invoice.partials.billing-address')
                 </div>
-                @if($invoice->user->billingaddress)
-                <div class="shipping-address-container">
+                {{-- @if($invoice->user->billingaddress)
+                    <div style="float:right;">
                 @else
                 <div class="shipping-address-container--left">
                 @endif
-                        @include('app.pdf.invoice.partials.shipping-address')
-                    </div>
-                    <div style="clear: both;"></div>
-                </div>
+                    @include('app.pdf.invoice.partials.shipping-address')
+                </div> --}}
+                <div style="clear: both;"></div>
+            </div>
 
                 <div class="invoice-details-container">
                     <table>
