@@ -566,4 +566,78 @@ class InvoicesController extends Controller
             'invoice' => $invoice
         ]);
     }
+
+     public function viewInvoicePdf($id)
+    {
+        $invoice = Invoice::with([
+                'items',
+                'items.taxes',
+                'user',
+                'invoiceTemplate',
+                'taxes'
+            ])
+            ->where('id', $id)
+            ->first();
+
+        $taxTypes = [];
+        $taxes = [];
+        $labels = [];
+
+        if ($invoice->tax_per_item === 'YES') {
+            foreach ($invoice->items as $item) {
+                foreach ($item->taxes as $tax) {
+                    if (!in_array($tax->name, $taxTypes)) {
+                        array_push($taxTypes, $tax->name);
+                        array_push($labels, $tax->name.' ('.$tax->percent.'%)');
+                    }
+                }
+            }
+
+            foreach ($taxTypes as $taxType) {
+                $total = 0;
+
+                foreach ($invoice->items as $item) {
+                    foreach ($item->taxes as $tax) {
+                        if($tax->name == $taxType) {
+                            $total += $tax->amount;
+                        }
+                    }
+                }
+
+                array_push($taxes, $total);
+            }
+        }
+
+        $invoiceTemplate = InvoiceTemplate::find($invoice->invoice_template_id);
+        $company = Company::find($invoice->company_id);
+        $companyAddress = User::with(['addresses', 'addresses.country'])->find(1);
+
+        $logo = $company->getMedia('logo')->first();
+
+        if($logo) {
+            $logo = $logo->getPath();
+        }
+
+        $colors = [
+            'invoice_primary_color',
+            'invoice_column_heading',
+            'invoice_field_label',
+            'invoice_field_value',
+            'invoice_body_text',
+            'invoice_description_text',
+            'invoice_border_color'
+        ];
+        $colorSettings = CompanySetting::whereIn('option', $colors)
+            ->whereCompany($invoice->company_id)
+            ->get();
+
+        return view('app.pdf.invoice.'.$invoiceTemplate->view, [
+            'invoice' => $invoice,
+            'company_address' => $companyAddress,
+            'logo' => $logo ?? null,
+            'colors' => $colorSettings,
+            'labels' => $labels,
+            'taxes' => $taxes
+        ]);
+    }
 }
