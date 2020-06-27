@@ -14,7 +14,10 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \ 
     libzip-dev \ 
-    libmagickwand-dev
+    libmagickwand-dev \
+    nginx \
+    ffmpeg \
+    supervisor
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -23,7 +26,19 @@ RUN pecl install imagick \
     && docker-php-ext-enable imagick
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd 
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl soap opcache curl cli imap
+
+RUN rm /etc/nginx/sites-enabled/default
+
+COPY docker-compose/nginx/nginx.conf /etc/nginx/sites-enabled/app.conf
+COPY docker-compose/supervisor/supervisor.conf /etc/supervisor/conf.d/start.conf
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 9001
+
+CMD ["/usr/bin/supervisord" ,"-n"]
+
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
