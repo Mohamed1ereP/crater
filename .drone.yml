@@ -27,7 +27,7 @@ steps:
       event:
         - push
   - commands:
-      - cp .env.testing .env
+      - cp .env.example .env
     image: 'ubuntu:18.04'
     name: copy env file
     when:
