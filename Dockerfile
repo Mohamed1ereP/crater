@@ -26,7 +26,7 @@ RUN pecl install imagick \
     && docker-php-ext-enable imagick
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl soap opcache curl cli imap
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl soap opcache curl
 
 RUN rm /etc/nginx/sites-enabled/default
 
