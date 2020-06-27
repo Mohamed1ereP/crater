@@ -43,6 +43,7 @@ services:
       - 8001:80
     volumes:
       - ./:/var/www
+      - ./storage/app/public:/var/www/public/storage
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
       - crater

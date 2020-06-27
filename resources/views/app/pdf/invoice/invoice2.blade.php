@@ -29,7 +29,7 @@
         /* -- Header -- */
 
         .header-container {
-            background: #817AE3;
+            background: #4a90e2;
             position: absolute;
             width: 100%;
             height: 141px;
@@ -270,7 +270,7 @@
         }
 
         .total-table-attribute-value {
-            font-weight: 500;
+            font-weight: bold;
             text-align: right;
             font-size: 12px;
             color: #040405;
@@ -318,7 +318,7 @@
         /* -- Helpers -- */
 
         .text-primary {
-            color: #5851DB;
+            color: #4a90e2;
         }
 
         .text-center {
