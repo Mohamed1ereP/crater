@@ -1,0 +1,76 @@
+kind: pipeline
+name: default
+steps:
+  - image: drillster/drone-volume-cache
+    name: restore-cache
+    settings:
+      mount:
+        - ./node_modules
+        - ./vendor
+      restore: true
+    volumes:
+      - name: cache
+        path: /cache
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - commands:
+      - npm install
+      - npm run production
+    image: 'node:10'
+    name: compile production assets
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - commands:
+      - composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
+      - composer dumpautoload
+    image: composer
+    name: composer install for production
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - image: drillster/drone-volume-cache
+    name: rebuild deployment cache
+    settings:
+      mount:
+        - ./node_modules
+        - ./vendor
+      rebuild: true
+    volumes:
+      - name: cache
+        path: /cache
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - image: plugins/docker
+    name: build_image
+    settings:
+      context: ./
+      dockerfile: ./Dockerfile
+      password:
+        from_secret: hub_password
+      registry: hub.tich.us
+      repo: hub.tich.us/tawazz/crater
+      tags:
+        - latest
+        - '${DRONE_COMMIT_SHA}'
+      username:
+        from_secret: hub_username
+    when:
+      branch:
+        - master
+      event:
+        - push
+volumes:
+  - host:
+      path: /var/lib/cache
+    name: cache
