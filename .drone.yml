@@ -27,17 +27,7 @@ steps:
       event:
         - push
   - commands:
-      - cp .env.example .env
-    image: 'ubuntu:18.04'
-    name: copy env file
-    when:
-      branch:
-        - master
-      event:
-        - push
-  - commands:
       - composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
-      - composer dumpautoload
     image: composer
     name: composer install for production
     when:
