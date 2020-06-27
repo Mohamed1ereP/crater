@@ -27,6 +27,15 @@ steps:
       event:
         - push
   - commands:
+      - cp .env.testing .env
+    image: 'ubuntu:18.04'
+    name: copy env file
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - commands:
       - composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
       - composer dumpautoload
     image: composer
