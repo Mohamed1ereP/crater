@@ -4,13 +4,13 @@ services:
   app:
     image: hub.tich.us/tawazz/crater
     restart: unless-stopped
-    working_dir: /var/www/
+    working_dir: /app
     volumes:
-      - ./.env:/var/www/.env
-      - ./storage/app/public:/var/www/public/storage
+      - ./.env:/app/.env
+      - ./storage/app/public:/app/public/storage
       - ./docker-compose/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:rw,delegated
     ports:
-      - 8001:80
+      - 8003:80
     networks:
       - crater
 
