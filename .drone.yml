@@ -28,6 +28,7 @@ steps:
         - push
   - commands:
       - composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
+      - php artisan passport:keys
     image: composer
     name: composer install for production
     when:
