@@ -52,12 +52,6 @@ class EnvironmentManager
 
             $this->checkDatabaseConnection($request);
 
-            if(\Schema::hasTable('users') ) {
-                return [
-                    'error' => 'database_should_be_empty'
-                ];
-            }
-
         } catch (Exception $e) {
 
             return [
